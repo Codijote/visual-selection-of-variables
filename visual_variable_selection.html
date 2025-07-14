@@ -122,6 +122,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="visualizing-mtcars-variables-to-predict-mpg">Visualizing mtcars variables to predict mpg</h2>
 <p>mtcars dataset of R is described as: ‘…extracted from the 1974 <em>Motor Trend</em> US magazine, and comprises fuel consumption and 10 aspects of automobile design and performance for 32 automobiles (1973–74 models).’</p>
 <p>Visualizing the variables correlation with the output variable gives a good idea of the importance of them for the model, indicating the direction and strength of the relation, for example in the case of ‘mtcars’ data-set in an exercise to predict a car’s mpg (Miles per gallon).</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="visual_variable_selection_files/figure-html/Visualize%20mtcars%20correlation,%20distribution%20and%20trends-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 <p>Visually it seems that gear (number of forward gears), qsec (1/4 mile time) and carbs (number of carburetors) can be discarded of the final model as the correlation to mpg is similar or lower than average.</p>
 <p>And definitely some variables can be discarded to reduce data and simplify the model due to their low correlation: vs (Engine (0 = V-shaped, 1 = straight)) and am (Transmission (0 = automatic, 1 = manual)).</p>
 <p>What combination would you choose?</p>
@@ -175,7 +184,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <h2 class="anchored" data-anchor-id="visualizing-hitters-variables-to-predict-salary">Visualizing Hitters variables to predict Salary</h2>
 <p>Hitters data-set can be found in the ISLR2 library, ‘Major League Baseball Data from the 1986 and 1987 seasons.’ It has 20 variables as AtBat, Hits, Runs, Walks and more, the exercise is to predict the Salary of a player given this and other parameters of its carer.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Hitters <span class="ot">&lt;-</span> <span class="fu">na.omit</span>(ISLR2<span class="sc">::</span>Hitters)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="visual_variable_selection_files/figure-html/Visualize%20Hitters%20correlation,%20distribution%20and%20trends-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
 </div>
 <p>Now the number of variables makes even reading the information a challenge, some of the variables are clearly too low correlated to be considered good candidates to discard from a final model and thus obtain a simpler final version.</p>
 <p>Years, CAtBat (Number of times at bat during his career), CHits (Number of hits during his career), CHmRun (Number of home runs during his career), CWalks (Number of walks during his career), League (A factor with levels <code>A</code> and <code>N</code> indicating player’s league at the end of 1986), Division, NewLeague.</p>
@@ -186,23 +201,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="the-lasso-for-hitters" class="level2">
 <h2 class="anchored" data-anchor-id="the-lasso-for-hitters">The Lasso for Hitters</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Salary <span class="sc">~</span> ., Hitters) [ ,<span class="sc">-</span><span class="dv">1</span>]</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> Hitters<span class="sc">$</span>Salary</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="at">length =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> <span class="fu">model.matrix</span>(Salary <span class="sc">~</span> ., Hitters) [ ,<span class="sc">-</span><span class="dv">1</span>]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>y <span class="ot">&lt;-</span> Hitters<span class="sc">$</span>Salary</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>grid <span class="ot">&lt;-</span> <span class="dv">10</span><span class="sc">^</span><span class="fu">seq</span>(<span class="dv">10</span>, <span class="sc">-</span><span class="dv">2</span>, <span class="at">length =</span> <span class="dv">100</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(x), <span class="fu">nrow</span>(x) <span class="sc">/</span> <span class="dv">2</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> (<span class="sc">-</span>train)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>y.test <span class="ot">&lt;-</span> y[test]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>train <span class="ot">&lt;-</span> <span class="fu">sample</span>(<span class="dv">1</span><span class="sc">:</span><span class="fu">nrow</span>(x), <span class="fu">nrow</span>(x) <span class="sc">/</span> <span class="dv">2</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>test <span class="ot">&lt;-</span> (<span class="sc">-</span>train)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>y.test <span class="ot">&lt;-</span> y[test]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x[train,], y[train], <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>model <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x[train,], y[train], <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> grid)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x, y, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> grid)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>lasso.coef <span class="ot">&lt;-</span> <span class="fu">predict</span>(out, <span class="at">type =</span> <span class="st">'coefficients'</span>, <span class="at">s =</span> bestlamda) [<span class="dv">1</span><span class="sc">:</span><span class="dv">19</span>, ]</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>lasso.coef</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x, y, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> grid)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>lasso.coef <span class="ot">&lt;-</span> <span class="fu">predict</span>(out, <span class="at">type =</span> <span class="st">'coefficients'</span>, <span class="at">s =</span> bestlamda) [<span class="dv">1</span><span class="sc">:</span><span class="dv">19</span>, ]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>lasso.coef</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> (Intercept)        AtBat         Hits        HmRun         Runs          RBI 
  113.4801605   -1.4369816    5.4221983    0.0000000    0.0000000    0.0000000 
