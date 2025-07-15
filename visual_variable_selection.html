@@ -162,18 +162,18 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> <span class="fu">glmnet</span>(x, y, <span class="at">alpha =</span> <span class="dv">1</span>, <span class="at">lambda =</span> grid)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>lasso.coef <span class="ot">&lt;-</span> <span class="fu">predict</span>(out, <span class="at">type =</span> <span class="st">'coefficients'</span>, <span class="at">s =</span> bestlamda) [<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>, ]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>lasso.coef <span class="ot">&lt;-</span> <span class="fu">predict</span>(out, <span class="at">type =</span> <span class="st">'coefficients'</span>, <span class="at">s =</span> bestlamda) [<span class="dv">1</span><span class="sc">:</span><span class="dv">17</span>, ]</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>lasso.coef</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>(Intercept)        cyl6        cyl8        disp          hp        drat 
 28.82548961 -0.32424570  0.00000000  0.00000000 -0.02571643  0.78336859 
          wt        qsec         vs1         am1       gear4       gear5 
 -2.59609757  0.00000000  0.91627981  0.97414573  0.00000000  0.00000000 
-      carb2       carb3       carb4 
- 0.00000000  0.00000000 -0.49093011 </code></pre>
+      carb2       carb3       carb4       carb6       carb8 
+ 0.00000000  0.00000000 -0.49093011  0.00000000  0.00000000 </code></pre>
 </div>
 </div>
-<p>The model discards variables for 8cyls, disp, qsec, gear4, carb2 and carb3, a rather different decision to the initial visual impression.</p>
+<p>The model discards variables for 8cyls, disp, qsec, gear4, carb2, carb3, carb6 and carb8, a rather different decision to the initial visual impression.</p>
 <p>Note that the first run was made without factorizing cyl, vs, am, gear and carb variables and the model discarded variables disp (displacement), qsec, vs and gear but was unable to distinguish between different sub-factors.</p>
 <p>So we could work a model with a decent accuracy using six variables instead of 9.</p>
 </section>

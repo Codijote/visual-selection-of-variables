@@ -1,7 +1,7 @@
 ---
 title: "Visual selection of variables vs. Lasso model"
 toc: true
-format: html
+format: pdf
 ---
 
 When working data for a prediction model we can chose one of two paths, reducing the number of variables for the most important to simplify and better explain the model, or work with all variables in order to take the advantage of all the data.
@@ -107,11 +107,11 @@ bestlamda <- cv.out$lambda.min
 
 ```{r finally show weight of the variables}
 out <- glmnet(x, y, alpha = 1, lambda = grid)
-lasso.coef <- predict(out, type = 'coefficients', s = bestlamda) [1:15, ]
+lasso.coef <- predict(out, type = 'coefficients', s = bestlamda) [1:17, ]
 lasso.coef
 ```
 
-The model discards variables for 8cyls, disp, qsec, gear4, carb2 and carb3, a rather different decision to the initial visual impression.
+The model discards variables for 8cyls, disp, qsec, gear4, carb2, carb3, carb6 and carb8, a rather different decision to the initial visual impression.
 
 Note that the first run was made without factorizing cyl, vs, am, gear and carb variables and the model discarded variables disp (displacement), qsec, vs and gear but was unable to distinguish between different sub-factors.
 
